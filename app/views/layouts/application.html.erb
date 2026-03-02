@@ -24,10 +24,10 @@
   </head>
 
   <body>
-    <nav class="navbar sticky-top navbar-dark bg-dark">
-    <div class="d-flex ms-auto"> <!-- ms-auto = margin-left:auto -->
-      <button class="btn btn-primary mx-1">Login</button>
-      <button class="btn btn-secondary mx-1">Register</button>
+    <nav class="navbar-lewagon">
+    <div class="d-flex ms-auto">
+      <%= link_to "Login", new_user_session_path, class: "btn btn-primary m-1" %>
+      <%= link_to "Register", new_user_registration_path, class: "btn btn-secondary m-1" %>
     </div>
     </nav>
     <%= yield %>
