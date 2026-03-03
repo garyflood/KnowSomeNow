@@ -5,7 +5,7 @@ class DevicesController < ApplicationController
 
     # Make API call and print to console
     puts "\n" + ("=" * 50)
-    puts "🤖 MAKING API CALL TO RUBYLLM"
+    puts ":robot_face: MAKING API CALL TO RUBYLLM"
     puts "=" * 50
 
     begin
@@ -21,15 +21,15 @@ class DevicesController < ApplicationController
       @api_response = response.content
 
       # Print the response to console
-      puts "\n📱 DEVICE: #{@device.name}"
-      puts "📝 RESPONSE:"
+      puts "\n:iphone: DEVICE: #{@device.name}"
+      puts ":memo: RESPONSE:"
       puts "-" * 30
       puts @api_response
       puts "-" * 30
-      puts "✅ API call completed!"
+      puts ":white_check_mark: API call completed!"
     rescue StandardError => e
       @api_response = "Unable to generate instructions at this time. Error: #{e.message}"
-      puts "❌ ERROR: #{e.message}"
+      puts ":x: ERROR: #{e.message}"
       puts e.backtrace[0..5] # Show first few lines of backtrace
     end
 
@@ -51,18 +51,19 @@ class DevicesController < ApplicationController
       flash.now[:alert] = 'There was a problem adding the device.'
       render 'users/show'
     end
+  end
 
-    def destroy
-       @device = Device.find(params[:id])
+  def destroy
+    @device = Device.find(params[:id])
 
     if @device.destroy
-    flash[:notice] = "Device was successfully deleted."
-  else
-    flash[:alert] = "There was a problem deleting the device."
+      flash[:notice] = "Device was successfully deleted."
+    else
+      flash[:alert] = "There was a problem deleting the device."
     end
 
     redirect_to user_path(current_user)
-    end
+  end
 
   def show
     @device = Device.find(params[:id])
