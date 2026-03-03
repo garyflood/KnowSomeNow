@@ -1,1 +1,9 @@
 <%= @user.email %>
+
+<h3>Add New Device</h3>
+<%= simple_form_for Device.new, url: devices_path, html: { class: 'device-form' } do |f| %>
+  <%= f.input :name, label: 'Device Name', placeholder: 'e.g., iPhone 12, MacBook Pro' %>
+  <%= f.hidden_field :user_id, value: @user.id %>
+
+  <%= f.button :submit, 'Add Device', class: 'btn btn-primary' %>
+<% end %>
