@@ -51,7 +51,18 @@ class DevicesController < ApplicationController
       flash.now[:alert] = 'There was a problem adding the device.'
       render 'users/show'
     end
-  end
+
+    def destroy
+       @device = Device.find(params[:id])
+
+    if @device.destroy
+    flash[:notice] = "Device was successfully deleted."
+  else
+    flash[:alert] = "There was a problem deleting the device."
+    end
+
+    redirect_to user_path(current_user)
+    end
 
   private
 
