@@ -24,12 +24,22 @@
   </head>
 
   <body>
-    <nav class="navbar-lewagon">
+  <nav class="navbar-lewagon">
     <div class="d-flex ms-auto">
-      <%= link_to "Login", new_user_session_path, class: "btn btn-primary m-1" %>
-      <%= link_to "Register", new_user_registration_path, class: "btn btn-secondary m-1" %>
+      <% if user_signed_in? %>
+        <!-- Show these when user IS logged in -->
+        <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-danger m-1" %>
+        <!-- Or just show the user's email -->
+        <span class="navbar-text m-1">
+          Logged in as <strong><%= current_user.email %></strong>
+        </span>
+      <% else %>
+        <!-- Show these when user is NOT logged in -->
+        <%= link_to "Login", new_user_session_path, class: "btn btn-primary m-1" %>
+        <%= link_to "Register", new_user_registration_path, class: "btn btn-secondary m-1" %>
+      <% end %>
     </div>
-    </nav>
+  </nav>
     <%= yield %>
   </body>
 </html>
