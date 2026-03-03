@@ -1,4 +1,4 @@
 class Device < ApplicationRecord
   belongs_to :user
-  has_many :instructions, dependent: :destroy
+  has_one :instruction, dependent: :destroy
 end
