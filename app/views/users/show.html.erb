@@ -25,7 +25,7 @@
         <% @user.devices.order(created_at: :desc).each do |device| %>
           <div class="card mb-4 shadow-sm border-0">
             <div class="card-header bg-white border-bottom-0 pt-3">
-              <h4 class="text-primary mb-0"><%= device.name %></h4>
+              <h4 class="text-primary mb-0">  <%= link_to device.name, device_path(device), class: "text-decoration-none text-primary" %></h4>
               <small class="text-muted">Added <%= time_ago_in_words(device.created_at) %> ago</small>
             </div>
             <div class="card-body">
