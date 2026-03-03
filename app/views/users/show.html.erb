@@ -7,8 +7,3 @@
 
   <%= f.button :submit, 'Add Device', class: 'btn btn-primary' %>
 <% end %>
-<%= button_to "Delete",
-              device_path(device),
-              method: :delete,
-              data: { turbo_confirm: "Are you sure?" },
-              class: "btn btn-danger" %>
