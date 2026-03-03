@@ -10,3 +10,16 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+// Make the AI instructions look like actual steps
+.card-body {
+  p {
+    margin-bottom: 0.5rem;
+    color: #444;
+    line-height: 1.5;
+  }
+}
+// Gives the "Add Device" card a nice feel
+.bg-light {
+  background-color: #f8f9fa !important;
+}
