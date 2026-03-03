@@ -1,9 +1,49 @@
-<%= @user.email %>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
 
-<h3>Add New Device</h3>
-<%= simple_form_for Device.new, url: devices_path, html: { class: 'device-form' } do |f| %>
-  <%= f.input :name, label: 'Device Name', placeholder: 'e.g., iPhone 12, MacBook Pro' %>
-  <%= f.hidden_field :user_id, value: @user.id %>
+      <!-- User Header -->
+      <div class="mb-4 border-bottom pb-3">
+        <h2 class="text-muted"><%= @user.email %></h2>
+      </div>
+      <!-- Add New Device Form -->
+      <div class="card shadow-sm mb-5 border-0 bg-light p-4">
+        <h3 class="mb-3">Add New Device</h3>
+        <%= simple_form_for Device.new, url: devices_path do |f| %>
+          <div class="form-inputs mb-3">
+            <%= f.input :name, label: "What device do you need help with?", placeholder: "e.g. Nespresso machine, iPhone 15, Microwave..." %>
+          </div>
+          <div class="form-actions text-end">
+            <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
+          </div>
+        <% end %>
+      </div>
+      <!-- List of Devices & AI Instructions -->
+      <h3 class="mb-4">My Saved Instructions</h3>
 
-  <%= f.button :submit, 'Add Device', class: 'btn btn-primary' %>
-<% end %>
+      <% if @user.devices.any? %>
+        <% @user.devices.order(created_at: :desc).each do |device| %>
+          <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-white border-bottom-0 pt-3">
+              <h4 class="text-primary mb-0"><%= device.name %></h4>
+              <small class="text-muted">Added <%= time_ago_in_words(device.created_at) %> ago</small>
+            </div>
+            <div class="card-body">
+              <% if device.instruction %>
+                <div class="instruction-content p-3 bg-light rounded border-start border-4 border-primary">
+                <%= markdown(device.instruction.steps) %>
+                </div>
+              <% else %>
+                <p class="text-muted italic">No instructions generated yet.</p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="text-center py-5 border rounded bg-white shadow-sm">
+          <p class="text-muted mb-0">You haven't added any devices yet. Type one above!</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
