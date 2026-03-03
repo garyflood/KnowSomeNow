@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="device-show">
+  <% if @device.instruction %>
+    <div class="instruction-section">
+      <h2>Instructions</h2>
+    <div class="steps">
+      <%= markdown(@device.instruction.steps) %>
+    </div>
+    </div>
+  <% else %>
+    <p class="no-instructions">No instructions available for this device yet.</p>
+  <% end %>
+  </div>
+</div>

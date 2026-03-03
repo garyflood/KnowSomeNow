@@ -64,6 +64,10 @@ class DevicesController < ApplicationController
     redirect_to user_path(current_user)
     end
 
+  def show
+    @device = Device.find(params[:id])
+  end
+
   private
 
   def device_params
