@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show]
   resources :devices, only: [:create, :show, :destroy]
   resources :devices do
-    resources :instructions, only: [:create]
+    resources :instructions, only: [:create, :update]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
