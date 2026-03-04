@@ -1,14 +1,187 @@
-<div class="p-5 text-center bg-image rounded-3" style="
-    background-image: url('https://media.geeksforgeeks.org/wp-content/uploads/20240710124623/electronic-devices.jpg');
-    height: 100vh;
-  ">
-  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
-    <div class="d-flex justify-content-center align-items-center h-100">
-      <div class="text-white">
-        <h1 class="mb-3">KnowSomeNow</h1>
-        <h4 class="mb-3">Learn how to use a device</h4>
-          <%= link_to "Register", new_user_registration_path, class: "btn btn-outline-light btn-lg", data: { mdb_ripple_init: true } %>
+
+<%# ========================================================= %>
+<%# HOMEPAGE (simple MVP)                                     %>
+<%# - No partials                                              %>
+<%# - No search yet                                             %>
+<%# - Prompt users to register                                  %>
+<%# - Device cards are visible but not clickable for now               %>
+<%# ========================================================= %>
+
+<!-- HERO -->
+<section class="container-xl py-5 py-lg-6">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <div class="mb-3 ksn-eyebrow">AI-Powered Device Training</div>
+
+      <h1 class="display-4 fw-black ksn-title mb-3">
+        Learn how to use any device, <span class="ksn-text-primary">instantly.</span>
+      </h1>
+
+      <p class="lead ksn-lead mb-4">
+        Master your iPhone, Kindle, or Smart Home in minutes with AI-powered, step-by-step guidance tailored to your experience level.
+      </p>
+
+      <div class="d-grid gap-3 d-sm-flex justify-content-sm-start">
+        <%= link_to "Register Now", new_user_registration_path, class: "btn ksn-btn-primary btn-lg px-5 py-3 fw-bold shadow-sm" %>
+        <%= link_to "Log In", new_user_session_path, class: "btn btn-outline-light btn-lg px-5 py-3 fw-bold shadow-sm" %>
+      </div>
+    </div>
+
+    <!-- Hero Illustration Placeholder (Bootstrap version) -->
+    <div class="col-lg-6">
+      <div class="ksn-hero-visual p-4 p-md-5">
+        <div class="row g-3 h-100">
+          <div class="col-8">
+            <div class="ksn-hero-chat h-100 p-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="ksn-badge-icon">
+                  <span class="material-symbols-outlined">robot_2</span>
+                </div>
+                <div class="ksn-skeleton ksn-skeleton-sm" style="width: 120px;"></div>
+              </div>
+
+              <div class="vstack gap-2">
+                <div class="ksn-skeleton"></div>
+                <div class="ksn-skeleton" style="width: 85%;"></div>
+                <div class="ksn-skeleton" style="width: 65%;"></div>
+                <div class="ksn-skeleton ksn-skeleton-primary"></div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mt-4">
+                <div class="d-flex">
+                  <div class="ksn-avatar"></div>
+                  <div class="ksn-avatar ksn-avatar-2"></div>
+                </div>
+                <div class="ksn-pill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="ksn-hero-tile ksn-hero-tile-primary mb-3">
+              <span class="material-symbols-outlined">smartphone</span>
+            </div>
+
+            <div class="ksn-hero-tile ksn-hero-tile-light">
+              <span class="material-symbols-outlined">nest_thermostat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- POPULAR DEVICES -->
+<section class="container-xl py-5" id="guides">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h2 class="h3 fw-bold mb-0">Popular Devices</h2>
+
+  </div>
+
+  <div class="row g-3 g-md-4">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+      <div class="ksn-device-card">
+        <div class="ksn-device-icon ksn-device-icon-primary">
+          <span class="material-symbols-outlined">smartphone</span>
+        </div>
+        <div>
+          <div class="ksn-device-title">iPhone</div>
+          <div class="ksn-device-sub">iOS 17+ Guides</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+      <div class="ksn-device-card">
+        <div class="ksn-device-icon ksn-device-icon-green">
+          <span class="material-symbols-outlined">android</span>
+        </div>
+        <div>
+          <div class="ksn-device-title">Android</div>
+          <div class="ksn-device-sub">Samsung & Pixel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+      <div class="ksn-device-card">
+        <div class="ksn-device-icon ksn-device-icon-slate">
+          <span class="material-symbols-outlined">laptop_mac</span>
+        </div>
+        <div>
+          <div class="ksn-device-title">Mac</div>
+          <div class="ksn-device-sub">macOS Sonoma</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+      <div class="ksn-device-card">
+        <div class="ksn-device-icon ksn-device-icon-blue">
+          <span class="material-symbols-outlined">window</span>
+        </div>
+        <div>
+          <div class="ksn-device-title">Windows</div>
+          <div class="ksn-device-sub">Windows 11 Tips</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+      <div class="ksn-device-card">
+        <div class="ksn-device-icon ksn-device-icon-orange">
+          <span class="material-symbols-outlined">home_iot_device</span>
+        </div>
+        <div>
+          <div class="ksn-device-title">Smart Home</div>
+          <div class="ksn-device-sub">IoT & Security</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- FEATURES -->
+<section class="ksn-section-divider py-5 py-lg-6" id="features">
+  <div class="container-xl">
+    <div class="row g-4 g-lg-5 text-center">
+      <div class="col-md-4">
+        <div class="ksn-feature">
+          <div class="ksn-feature-icon">
+            <span class="material-symbols-outlined">chat_bubble</span>
+          </div>
+          <h4 class="h5 fw-bold mt-3">Conversational Help</h4>
+          <p class="ksn-muted mb-0">
+            Ask questions naturally and get answers that understand your context.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="ksn-feature">
+          <div class="ksn-feature-icon">
+            <span class="material-symbols-outlined">menu_book</span>
+          </div>
+          <h4 class="h5 fw-bold mt-3">Step-by-Step</h4>
+          <p class="ksn-muted mb-0">
+            Interactive walkthroughs that wait for you to complete each action.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="ksn-feature">
+          <div class="ksn-feature-icon">
+            <span class="material-symbols-outlined">verified</span>
+          </div>
+          <h4 class="h5 fw-bold mt-3">Always Up to Date</h4>
+          <p class="ksn-muted mb-0">
+            Our AI stays synced with the latest software updates and hardware releases.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
