@@ -10,6 +10,7 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+@import "components/navbar";
 
 // Make the AI instructions look like actual steps
 .card-body {
@@ -22,4 +23,8 @@
 // Gives the "Add Device" card a nice feel
 .bg-light {
   background-color: #f8f9fa !important;
+}
+
+body {
+  padding-top: 70px; /* Adjust this value to match your navbar's height */
 }
