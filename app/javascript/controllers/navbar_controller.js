@@ -10,10 +10,10 @@ export default class extends Controller {
   }
 
   updateNavbar = () => {
-    if (window.scrollY > 50) {
-      this.element.classList.add('scrolled')
+    if (window.scrollY >= 100) {
+      this.element.classList.add("navbar-knowsomenow-white")
     } else {
-      this.element.classList.remove('scrolled')
+      this.element.classList.remove("navbar-knowsomenow-white")
     }
   }
 }

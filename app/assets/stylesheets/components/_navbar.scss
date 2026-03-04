@@ -1,7 +1,16 @@
 .navbar-knowsomenow {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
   background: transparent;
   transition: 0.5s;
   padding: 20px 0;
+  &.scrolled {
+    background: white;
+    padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
   .navbar-brand {
     img {
       width: 50px;
@@ -29,15 +38,18 @@
   .navbar-toggler {
     border: none;
   }
-  &.scrolled {
-    background: white;
-    padding: 10px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    .nav-link {
-      color: #333;
-      &::after {
-        background: #333;
-      }
-    }
+}
+
+.navbar-knowsomenow-white {
+  background-color: white;
+  .nav-link {
+    color: black !important;
+  }
+  .navbar-toggler {
+    color: black;
+    border-color: black;
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   }
 }

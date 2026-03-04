@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-sm navbar-knowsomenow fixed-top" data-controller="navbar">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-sm navbar-knowsomenow" data-controller="navbar" data-action="scroll@window->navbar#updateNavbar">
+  <div class="container-xl">
     <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag "logo_transparent.png", alt: "Logo" %>
     <% end %>
@@ -15,7 +15,7 @@
             <%= link_to "My Devices", user_path(current_user), class: "nav-link" %>
           </li>
           <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="#" class="text-white nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <%= current_user.email %>
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
