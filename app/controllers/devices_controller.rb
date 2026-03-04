@@ -3,11 +3,6 @@ class DevicesController < ApplicationController
     @device = Device.new(device_params)
     @device.user = current_user
 
-    # Make API call and print to console
-    puts "\n" + ("=" * 50)
-    puts ":robot_face: MAKING API CALL TO RUBYLLM"
-    puts "=" * 50
-
     begin
       chat = RubyLLM.chat
       system_prompt = "You are an expert in using devices.
@@ -19,18 +14,8 @@ class DevicesController < ApplicationController
 
       # Store the API response
       @api_response = response.content
-
-      # Print the response to console
-      puts "\n:iphone: DEVICE: #{@device.name}"
-      puts ":memo: RESPONSE:"
-      puts "-" * 30
-      puts @api_response
-      puts "-" * 30
-      puts ":white_check_mark: API call completed!"
     rescue StandardError => e
       @api_response = "Unable to generate instructions at this time. Error: #{e.message}"
-      puts ":x: ERROR: #{e.message}"
-      puts e.backtrace[0..5] # Show first few lines of backtrace
     end
 
     puts ("=" * 50) + "\n\n"
