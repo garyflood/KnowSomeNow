@@ -11,9 +11,35 @@
     <p class="no-instructions">No instructions available for this device yet.</p>
   <% end %>
   </div>
+<%= simple_form_for [@device, @device.instruction],
+                    url: device_instruction_path(@device, @device.instruction),
+                    method: :patch,
+                    html: { class: 'form-horizontal' } do |f| %>
+
+  <%= f.input :steps,
+              as: :text,
+              label: false,
+              placeholder: "Ask for clarification or improvement for a specific part...",
+              input_html: {
+                class: 'form-control',
+                rows: 5,
+                value: ''
+              },
+              wrapper_html: {
+                class: 'no-validation-tick'  # Custom class to target with CSS
+              },
+              validate: false,  # Disable HTML5 validation
+              required: false,  # Mark as not required for this form
+              error: false,     # Don't display error messages
+              hint: false       # Don't display hints
+              %>
+
+  <%= f.button :submit, "Update Instructions", class: 'btn btn-primary mt-3' %>
+<% end %>
+  <%= button_to "Delete",
+                device_path(@device),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "btn btn-danger my-5" %>
+
 </div>
-<%= button_to "Delete",
-              device_path(@device),
-              method: :delete,
-              data: { turbo_confirm: "Are you sure?" },
-              class: "btn btn-danger" %>

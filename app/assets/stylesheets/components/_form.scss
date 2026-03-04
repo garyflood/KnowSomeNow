@@ -1,3 +1,13 @@
-.user-form {
+/* Remove the green validation tick from Bootstrap/SimpleForm */
+.no-validation-tick .form-control:valid,
+.no-validation-tick .form-control.is-valid {
+  border-color: #ced4da !important;
+  background-image: none !important;
+  padding-right: 0.75rem !important;
+}
 
+/* Remove the green focus shadow */
+.no-validation-tick .form-control:valid:focus {
+  border-color: #86b7fe !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
 }
