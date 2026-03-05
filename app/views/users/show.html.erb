@@ -1,10 +1,6 @@
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-8">
-      <!-- User Header -->
-      <div class="mb-4 border-bottom pb-3">
-        <%# <h2 class="text-muted"><%= @user.email %>
-      </div>
+    <div class="col-12 col-md-8 col-lg-6">
       <!-- Add New Device Form -->
       <div class="card shadow-sm mb-5 border-0 bg-light p-4">
         <h3 class="mb-3">Add New Device</h3>
@@ -12,22 +8,23 @@
           <div class="form-inputs mb-3">
             <%= f.input :name, label: "What device do you need help with?", placeholder: "e.g. Nespresso machine, iPhone 15, Microwave..." %>
           </div>
-          <div class="form-actions text-end">
+          <div class="form-actions">
             <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
           </div>
         <% end %>
       </div>
-      <!-- List of Devices & AI Instructions -->
-      <h3 class="mb-4">My Saved Instructions</h3>
-      <% if @user.devices.any? %>
-        <%# RAILS MAGIC: This loops through the collection and renders the _device partial for each one %>
-        <%= render partial: "devices/device", collection: @user.devices.order(created_at: :desc) %>
-      <% else %>
-        <div class="text-center py-5 border rounded bg-white shadow-sm">
-          <%# FIXED: I also fixed the curly quotes here that were in your original code! %>
-          <p class="text-muted mb-0">You haven't added any devices yet. Type one above!</p>
-        </div>
-      <% end %>
     </div>
   </div>
+
+  <!-- My Saved Instructions Grid -->
+  <h3 class="mb-4">My Saved Instructions</h3>
+  <% if @user.devices.any? %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <%= render partial: "devices/device", collection: @user.devices.order(created_at: :desc) %>
+    </div>
+  <% else %>
+    <div class="text-center py-5 border rounded bg-white shadow-sm">
+      <p class="text-muted mb-0">You haven't added any devices yet. Type one above!</p>
+    </div>
+  <% end %>
 </div>
