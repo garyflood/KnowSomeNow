@@ -4,9 +4,11 @@
       <!-- Add New Device Form -->
       <div class="card shadow-sm mb-5 border-0 bg-light p-4">
         <h3 class="mb-3">Add New Device</h3>
-        <%= simple_form_for Device.new, url: devices_path do |f| %>
+        <%= simple_form_for @device || Device.new, url: devices_path do |f| %>
           <div class="form-inputs mb-3">
-            <%= f.input :name, label: "What device do you need help with?", placeholder: "e.g. Nespresso machine, iPhone 15, Microwave..." %>
+            <%= f.input :name,
+                label: "What device do you need help with?",
+                placeholder: "e.g. Nespresso machine, iPhone 15, Microwave..." %>
           </div>
           <div class="form-actions">
             <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
@@ -15,7 +17,6 @@
       </div>
     </div>
   </div>
-
   <!-- My Saved Instructions Grid -->
   <h3 class="mb-4">My Saved Instructions</h3>
   <% if @user.devices.any? %>

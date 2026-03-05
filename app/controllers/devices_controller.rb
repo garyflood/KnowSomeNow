@@ -34,7 +34,7 @@ class DevicesController < ApplicationController
     else
       @user = @device.user
       flash.now[:alert] = 'There was a problem adding the device.'
-      render 'users/show'
+      render 'users/show', status: :unprocessable_entity
     end
   end
   # rubocop:enable Metrics/MethodLength
