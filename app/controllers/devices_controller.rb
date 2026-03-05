@@ -18,8 +18,6 @@ class DevicesController < ApplicationController
       @api_response = "Unable to generate instructions at this time. Error: #{e.message}"
     end
 
-    puts ("=" * 50) + "\n\n"
-
     if @device.save
       # Create the instruction associated with this device
       instruction = @device.build_instruction(steps: @api_response)
@@ -34,7 +32,7 @@ class DevicesController < ApplicationController
     else
       @user = @device.user
       flash.now[:alert] = 'There was a problem adding the device.'
-      render 'users/show'
+      render 'users/show', status: :unprocessable_entity
     end
   end
 
