@@ -18,7 +18,8 @@ class DevicesController < ApplicationController
       @api_response = "Unable to generate instructions at this time. Error: #{e.message}"
     end
 
-    puts ("=" * 50) + "\n\n"
+    # Fetch a relevant device image from Wikipedia and store it via Cloudinary
+    @device.image = generate_and_upload_image(@device.name)
 
     if @device.save
       # Create the instruction associated with this device
@@ -55,6 +56,46 @@ class DevicesController < ApplicationController
   end
 
   private
+
+  # Searches Wikipedia for the device, uploads the found image to Cloudinary,
+  # and returns the permanent Cloudinary URL. Returns nil if no image is found.
+  def generate_and_upload_image(device_name)
+    photo_url = fetch_wikipedia_image_url(device_name)
+    return nil if photo_url.nil?
+
+    result = Cloudinary::Uploader.upload(photo_url, folder: "knowsomenow/devices")
+    result["secure_url"]
+  rescue StandardError => e
+    Rails.logger.error("Image fetch/upload failed: #{e.message}")
+    nil
+  end
+
+  # Uses Wikipedia's opensearch API to find the correct article title,
+  # then returns the page thumbnail URL from the REST summary API.
+  def fetch_wikipedia_image_url(device_name)
+    title = search_wikipedia_title(device_name)
+    return nil if title.nil?
+
+    encoded_title = URI.encode_uri_component(title)
+    uri = URI("https://en.wikipedia.org/api/rest_v1/page/summary/#{encoded_title}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Get.new(uri)
+    request["User-Agent"] = "KnowSomeNow/1.0 (device-instructions-app)"
+    JSON.parse(http.request(request).body).dig("thumbnail", "source")
+  end
+
+  # Searches Wikipedia's opensearch API and returns the best-matching article title.
+  def search_wikipedia_title(device_name)
+    encoded_query = URI.encode_uri_component(device_name)
+    uri = URI("https://en.wikipedia.org/w/api.php?action=opensearch&search=#{encoded_query}&limit=1&format=json")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Get.new(uri)
+    request["User-Agent"] = "KnowSomeNow/1.0 (device-instructions-app)"
+    results = JSON.parse(http.request(request).body)
+    results[1]&.first
+  end
 
   def device_params
     params.require(:device).permit(:name)
