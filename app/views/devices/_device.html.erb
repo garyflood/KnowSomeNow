@@ -1,7 +1,7 @@
 <%# app/views/devices/_device.html.erb %>
 <div class="col">
   <div class="card h-100 shadow-sm border-0">
-    <% if device.image.attached? %>
+    <% if device.image.present? %>
       <%= image_tag device.image, class: "card-img-top", style: "height: 160px; object-fit: cover;" %>
     <% else %>
       <div class="d-flex align-items-center justify-content-center bg-light" style="height: 160px;">
