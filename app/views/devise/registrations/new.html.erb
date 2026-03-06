@@ -31,11 +31,11 @@
                           input_html: {
                             autocomplete: "new-password",
                             class: "form-control-lg",
-                            id: "password-field"  # Added ID for JavaScript
+                            id: "password-field"
                           },
                           wrapper_html: { class: "mb-3" } %>
 
-              <%# PASSWORD REQUIREMENTS CHECKLIST - THIS IS THE NEW PART %>
+              <%# PASSWORD REQUIREMENTS CHECKLIST %>
               <div class="password-requirements mb-3" style="padding: 15px; border-radius: 8px; margin-top: -10px;">
                 <ul style="list-style: none; padding-left: 0; margin-bottom: 0;">
                   <li id="req-length" class="requirement-item" style="margin-bottom: 6px; color: #dc3545; font-size: 0.9rem;">
@@ -61,11 +61,11 @@
                           input_html: {
                             autocomplete: "new-password",
                             class: "form-control-lg",
-                            id: "password-confirmation-field"  # Added ID for JavaScript
+                            id: "password-confirmation-field"
                           },
                           wrapper_html: { class: "mb-4" } %>
 
-              <%# PASSWORD MATCH MESSAGE - WILL BE POPULATED BY JAVASCRIPT %>
+              <%# PASSWORD MATCH MESSAGE %>
               <div id="password-match" class="validation-message" style="margin-top: -10px; margin-bottom: 15px; min-height: 24px;"></div>
             </div>
 
@@ -86,9 +86,10 @@
   </div>
 </div>
 
-<%# JAVASCRIPT FOR REAL-TIME VALIDATION %>
+<%# JAVASCRIPT FOR REAL-TIME VALIDATION - RAILS 8 VERSION %>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  // Function to initialize password validation
+  function initPasswordValidation() {
     // Get the form elements
     const passwordField = document.getElementById('password-field');
     const confirmField = document.getElementById('password-confirmation-field');
@@ -99,11 +100,11 @@
 
     // Define all password requirements
     const requirements = [
-      { regex: /.{8,}/, element: 'req-length', message: 'At least 8 characters' },
-      { regex: /[A-Z]/, element: 'req-uppercase', message: 'One uppercase letter' },
-      { regex: /[a-z]/, element: 'req-lowercase', message: 'One lowercase letter' },
-      { regex: /\d/, element: 'req-number', message: 'One number' },
-      { regex: /[!@#$%^&*(),.?":{}|<>]/, element: 'req-special', message: 'One special character' }
+      { regex: /.{8,}/, element: 'req-length' },
+      { regex: /[A-Z]/, element: 'req-uppercase' },
+      { regex: /[a-z]/, element: 'req-lowercase' },
+      { regex: /\d/, element: 'req-number' },
+      { regex: /[!@#$%^&*(),.?":{}|<>]/, element: 'req-special' }
     ];
 
     // Main validation function
@@ -120,12 +121,10 @@
         const isValid = req.regex.test(password);
 
         if (isValid) {
-          // Requirement met - turn green
           element.style.color = '#28a745';
           if (icon) icon.textContent = '✓';
           element.classList.add('valid');
         } else {
-          // Requirement not met - keep red
           element.style.color = '#dc3545';
           if (icon) icon.textContent = '✗';
           element.classList.remove('valid');
@@ -147,10 +146,9 @@
       if (!matchElement) return true;
 
       if (confirmation.length === 0) {
-        // No confirmation entered yet
         matchElement.textContent = '';
         matchElement.className = 'validation-message';
-        return true; // Don't count as failure if empty
+        return true;
       }
 
       if (password === confirmation) {
@@ -183,9 +181,17 @@
       confirmField.addEventListener('input', updateSubmitButton);
     }
 
-    // Initial validation check (to set correct initial state)
+    // Initial validation check
     updateSubmitButton();
-  });
+  }
+
+  // Rails 8 with Turbo - use turbo:load event
+  document.addEventListener('turbo:load', initPasswordValidation);
+
+  // Also run if DOM is already loaded (fallback)
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initPasswordValidation, 1);
+  }
 </script>
 
 <%# STYLES FOR VALIDATION FEEDBACK %>
@@ -216,7 +222,6 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
-  /* Optional: Add a little checkmark animation */
   .requirement-item.valid .req-icon {
     animation: pop 0.2s ease;
   }
