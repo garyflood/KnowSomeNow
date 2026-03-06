@@ -46,7 +46,7 @@ class DevicesController < ApplicationController
         flash[:alert] = 'Device saved but there was a problem saving the instructions.'
       end
 
-      redirect_to user_path(@device.user)
+      redirect_to device_path(@device)
     else
       @user = @device.user
       flash.now[:alert] = 'There was a problem adding the device.'
