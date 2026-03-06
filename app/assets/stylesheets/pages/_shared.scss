@@ -36,6 +36,44 @@
   font-size: .85rem;
 }
 
+/* --- Add Device glass card (users/show) ---
+   Premium glass panel with a cyan/violet top accent line */
+.ksn-add-device-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border: 1px solid var(--ksn-border);
+  border-radius: var(--ksn-radius);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45),
+              inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: 2.25rem 2rem;
+  overflow: hidden;
+}
+
+/* Cyan → violet top accent line */
+.ksn-add-device-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ksn-primary), var(--ksn-primary-2));
+  border-radius: var(--ksn-radius) var(--ksn-radius) 0 0;
+}
+
+/* Soft ambient glow behind the card */
+.ksn-add-device-card::after {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 229, 255, 0.07), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep form content above the glow pseudo-element */
+.ksn-add-device-card > * { position: relative; z-index: 1; }
+
 /* --- Auth / link helpers --- */
 .ksn-auth-link {
   color: var(--ksn-primary);
@@ -47,50 +85,139 @@
   text-decoration: underline;
 }
 
-/* --- Device instruction prose (devices/show) --- */
+/* --- Device instruction prose (devices/show) ---
+   Styled markdown output from AI-generated instructions */
 .ksn-prose {
   color: var(--ksn-text);
-  line-height: 1.8;
+  line-height: 1.85;
+  font-size: 1rem;
 }
+
+/* Headings — h2 gets a cyan left accent bar, h3 is subtler */
 .ksn-prose h1,
-.ksn-prose h2,
+.ksn-prose h2 {
+  color: #f1f5f9;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: .6em;
+  padding-left: .85em;
+  border-left: 3px solid var(--ksn-primary);
+}
 .ksn-prose h3,
 .ksn-prose h4 {
   color: #e2e8f0;
+  font-size: 1rem;
+  font-weight: 700;
   margin-top: 1.5em;
   margin-bottom: .4em;
 }
+.ksn-prose h1:first-child,
+.ksn-prose h2:first-child { margin-top: 0; }
+
+/* Paragraphs */
 .ksn-prose p { margin-bottom: 1em; }
-.ksn-prose ul,
-.ksn-prose ol {
-  padding-left: 1.5em;
-  margin-bottom: 1em;
+
+/* Unordered list — subtle bullet replaced with cyan dot */
+.ksn-prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.2em;
 }
-.ksn-prose li { margin-bottom: .4em; }
+.ksn-prose ul li {
+  position: relative;
+  padding-left: 1.4em;
+  margin-bottom: .55em;
+}
+.ksn-prose ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ksn-primary);
+  opacity: .75;
+}
+
+/* Ordered list — numbered steps with a glowing cyan badge */
+.ksn-prose ol {
+  list-style: none;
+  counter-reset: ksn-step;
+  padding-left: 0;
+  margin-bottom: 1.2em;
+}
+.ksn-prose ol li {
+  counter-increment: ksn-step;
+  position: relative;
+  padding-left: 2.6em;
+  margin-bottom: .75em;
+  min-height: 1.8em;
+}
+.ksn-prose ol li::before {
+  content: counter(ksn-step);
+  position: absolute;
+  left: 0;
+  top: .05em;
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 50%;
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.30);
+  color: var(--ksn-primary);
+  font-size: .78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Inline code */
 .ksn-prose code {
   background: rgba(0, 229, 255, 0.10);
   border: 1px solid rgba(0, 229, 255, 0.18);
   border-radius: 6px;
   padding: 2px 7px;
-  font-size: .88em;
+  font-size: .875em;
   color: var(--ksn-primary);
 }
+
+/* Code block */
 .ksn-prose pre {
-  background: rgba(2, 8, 23, 0.55);
+  background: rgba(2, 8, 23, 0.65);
   border: 1px solid var(--ksn-border);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
+  margin-bottom: 1.2em;
 }
 .ksn-prose pre code {
   background: none;
   border: none;
   padding: 0;
+  color: #e2e8f0;
 }
-.ksn-prose strong { color: #e2e8f0; }
+
+/* Strong / bold */
+.ksn-prose strong { color: #f1f5f9; font-weight: 700; }
+
+/* Horizontal rule */
 .ksn-prose hr {
-  border-color: var(--ksn-border);
+  border: none;
+  border-top: 1px solid var(--ksn-border);
   margin-block: 2em;
+}
+
+/* Blockquote — left bar + muted text */
+.ksn-prose blockquote {
+  border-left: 3px solid rgba(0, 229, 255, 0.35);
+  margin: 1.2em 0;
+  padding: .6em 1em;
+  background: rgba(0, 229, 255, 0.04);
+  border-radius: 0 8px 8px 0;
+  color: var(--ksn-muted);
 }
 
 /* --- Saved device cards (users/show grid) --- */
