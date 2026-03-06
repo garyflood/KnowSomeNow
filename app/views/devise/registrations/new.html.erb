@@ -28,17 +28,49 @@
               <%= f.input :password,
                           required: true,
                           hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                          input_html: { autocomplete: "new-password", class: "form-control-lg" },
+                          input_html: {
+                            autocomplete: "new-password",
+                            class: "form-control-lg",
+                            id: "password-field"  # Added ID for JavaScript
+                          },
                           wrapper_html: { class: "mb-3" } %>
+
+              <%# PASSWORD REQUIREMENTS CHECKLIST - THIS IS THE NEW PART %>
+              <div class="password-requirements mb-3" style="padding: 15px; border-radius: 8px; margin-top: -10px;">
+                <ul style="list-style: none; padding-left: 0; margin-bottom: 0;">
+                  <li id="req-length" class="requirement-item" style="margin-bottom: 6px; color: #dc3545; font-size: 0.9rem;">
+                    <span class="req-icon" style="display: inline-block; width: 20px; font-weight: bold;">✗</span> At least 8 characters
+                  </li>
+                  <li id="req-uppercase" class="requirement-item" style="margin-bottom: 6px; color: #dc3545; font-size: 0.9rem;">
+                    <span class="req-icon" style="display: inline-block; width: 20px; font-weight: bold;">✗</span> One uppercase letter (A-Z)
+                  </li>
+                  <li id="req-lowercase" class="requirement-item" style="margin-bottom: 6px; color: #dc3545; font-size: 0.9rem;">
+                    <span class="req-icon" style="display: inline-block; width: 20px; font-weight: bold;">✗</span> One lowercase letter (a-z)
+                  </li>
+                  <li id="req-number" class="requirement-item" style="margin-bottom: 6px; color: #dc3545; font-size: 0.9rem;">
+                    <span class="req-icon" style="display: inline-block; width: 20px; font-weight: bold;">✗</span> One number (0-9)
+                  </li>
+                  <li id="req-special" class="requirement-item" style="margin-bottom: 6px; color: #dc3545; font-size: 0.9rem;">
+                    <span class="req-icon" style="display: inline-block; width: 20px; font-weight: bold;">✗</span> One special character (!@#$%^&*)
+                  </li>
+                </ul>
+              </div>
 
               <%= f.input :password_confirmation,
                           required: true,
-                          input_html: { autocomplete: "new-password", class: "form-control-lg" },
+                          input_html: {
+                            autocomplete: "new-password",
+                            class: "form-control-lg",
+                            id: "password-confirmation-field"  # Added ID for JavaScript
+                          },
                           wrapper_html: { class: "mb-4" } %>
+
+              <%# PASSWORD MATCH MESSAGE - WILL BE POPULATED BY JAVASCRIPT %>
+              <div id="password-match" class="validation-message" style="margin-top: -10px; margin-bottom: 15px; min-height: 24px;"></div>
             </div>
 
             <div class="form-actions d-grid gap-2">
-              <%= f.button :submit, "Sign up", class: "btn ksn-btn-primary btn-lg fw-bold" %>
+              <%= f.button :submit, "Sign up", class: "btn ksn-btn-primary btn-lg fw-bold", id: "submit-btn" %>
             </div>
           <% end %>
         </div>
@@ -53,3 +85,144 @@
     </div>
   </div>
 </div>
+
+<%# JAVASCRIPT FOR REAL-TIME VALIDATION %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the form elements
+    const passwordField = document.getElementById('password-field');
+    const confirmField = document.getElementById('password-confirmation-field');
+    const submitBtn = document.getElementById('submit-btn');
+
+    // If password field doesn't exist (not on signup page), exit
+    if (!passwordField) return;
+
+    // Define all password requirements
+    const requirements = [
+      { regex: /.{8,}/, element: 'req-length', message: 'At least 8 characters' },
+      { regex: /[A-Z]/, element: 'req-uppercase', message: 'One uppercase letter' },
+      { regex: /[a-z]/, element: 'req-lowercase', message: 'One lowercase letter' },
+      { regex: /\d/, element: 'req-number', message: 'One number' },
+      { regex: /[!@#$%^&*(),.?":{}|<>]/, element: 'req-special', message: 'One special character' }
+    ];
+
+    // Main validation function
+    function validatePassword() {
+      const password = passwordField.value;
+      let allRequirementsMet = true;
+
+      // Check each requirement
+      requirements.forEach(req => {
+        const element = document.getElementById(req.element);
+        if (!element) return;
+
+        const icon = element.querySelector('.req-icon');
+        const isValid = req.regex.test(password);
+
+        if (isValid) {
+          // Requirement met - turn green
+          element.style.color = '#28a745';
+          if (icon) icon.textContent = '✓';
+          element.classList.add('valid');
+        } else {
+          // Requirement not met - keep red
+          element.style.color = '#dc3545';
+          if (icon) icon.textContent = '✗';
+          element.classList.remove('valid');
+          allRequirementsMet = false;
+        }
+      });
+
+      return allRequirementsMet;
+    }
+
+    // Password match validation
+    function validatePasswordMatch() {
+      if (!confirmField) return true;
+
+      const password = passwordField.value;
+      const confirmation = confirmField.value;
+      const matchElement = document.getElementById('password-match');
+
+      if (!matchElement) return true;
+
+      if (confirmation.length === 0) {
+        // No confirmation entered yet
+        matchElement.textContent = '';
+        matchElement.className = 'validation-message';
+        return true; // Don't count as failure if empty
+      }
+
+      if (password === confirmation) {
+        matchElement.textContent = '✓ Passwords match';
+        matchElement.className = 'validation-message valid';
+        matchElement.style.color = '#28a745';
+        return true;
+      } else {
+        matchElement.textContent = '✗ Passwords do not match';
+        matchElement.className = 'validation-message invalid';
+        matchElement.style.color = '#dc3545';
+        return false;
+      }
+    }
+
+    // Update submit button state
+    function updateSubmitButton() {
+      if (!submitBtn) return;
+
+      const requirementsMet = validatePassword();
+      const passwordsMatch = validatePasswordMatch();
+
+      // Enable button only if all requirements met AND passwords match
+      submitBtn.disabled = !(requirementsMet && passwordsMatch);
+    }
+
+    // Add event listeners
+    passwordField.addEventListener('input', updateSubmitButton);
+    if (confirmField) {
+      confirmField.addEventListener('input', updateSubmitButton);
+    }
+
+    // Initial validation check (to set correct initial state)
+    updateSubmitButton();
+  });
+</script>
+
+<%# STYLES FOR VALIDATION FEEDBACK %>
+<style>
+  .requirement-item {
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+  .requirement-item .req-icon {
+    display: inline-block;
+    width: 20px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  .validation-message {
+    font-size: 0.9rem;
+    min-height: 24px;
+    margin-top: 5px;
+  }
+  .validation-message.valid {
+    color: #28a745;
+  }
+  .validation-message.invalid {
+    color: #dc3545;
+  }
+  #submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  /* Optional: Add a little checkmark animation */
+  .requirement-item.valid .req-icon {
+    animation: pop 0.2s ease;
+  }
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+</style>
