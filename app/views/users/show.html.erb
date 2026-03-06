@@ -4,36 +4,25 @@
   <%# ── Add New Device Form ── %>
   <div class="row justify-content-center mb-5">
     <div class="col-12 col-md-8 col-lg-6">
-      <div class="ksn-card p-4 p-md-5">
-        <div class="ksn-eyebrow mb-3">AI-Powered Instructions</div>
-        <h3 class="fw-bold mb-1">Add New Device</h3>
-        <p class="ksn-muted mb-4">Type any device name and get instant step-by-step guidance.</p>
-
-        <div class="ksn-form">
-          <%= simple_form_for Device.new, url: devices_path do |f| %>
+      <!-- Add New Device Form -->
+      <div class="card shadow-sm mb-5 border-0 bg-light p-4">
+        <h3 class="mb-3">Add New Device</h3>
+        <%= simple_form_for @device || Device.new, url: devices_path, html: { multipart: true } do |f| %>
             <div class="form-inputs mb-3">
               <%= f.input :name,
-                          label: "What device do you need help with?",
-                          placeholder: "e.g. Nespresso machine, iPhone 15, Microwave...",
-                          wrapper_html: { class: "mb-3" } %>
+                  label: "What device do you need help with?",
+                  placeholder: "e.g. Nespresso machine, iPhone 15, Microwave..." %>
+              <%= f.input :image, as: :file, label: "Or upload an image of your device" %>
             </div>
             <div class="form-actions">
-              <%= f.button :submit, "Get AI Instructions", class: "btn ksn-btn-primary w-100 fw-bold py-2" %>
+              <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
             </div>
           <% end %>
-        </div>
       </div>
     </div>
   </div>
-
-  <%# ── My Saved Instructions Grid ── %>
-  <div class="d-flex align-items-center gap-2 mb-4">
-    <h3 class="fw-bold mb-0">My Saved Instructions</h3>
-    <span class="badge rounded-pill px-3 py-2" style="background: rgba(0,229,255,0.12); color: var(--ksn-primary); border: 1px solid rgba(0,229,255,0.22); font-size:.85rem;">
-      <%= @user.devices.count %>
-    </span>
-  </div>
-
+  <!-- My Saved Instructions Grid -->
+  <h3 class="mb-4">My Saved Instructions</h3>
   <% if @user.devices.any? %>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <%= render partial: "devices/device", collection: @user.devices.order(created_at: :desc) %>
