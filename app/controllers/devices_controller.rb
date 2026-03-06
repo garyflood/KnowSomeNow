@@ -4,6 +4,22 @@ class DevicesController < ApplicationController
     @device = Device.new(device_params)
     @device.user = current_user
 
+    if params[:device][:image].present?
+      uploaded_file = params[:device][:image]
+
+      # Upload to Cloudinary
+      result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: "knowsomenow/devices")
+      @device.image = result["secure_url"]
+
+      # Use LLM to identify the object in the image
+      chat = RubyLLM.chat(model: "gpt-4o")
+      prompt = "What is the model of this device. You just respond with the name of the device. If you're unsure of the exact device, you repond with the basic name of the device. Answer concisely."
+
+      # Pass the file path to the LLM
+      response = chat.ask(prompt, with: { image: uploaded_file.tempfile.path })
+      @device.name = response.content
+    end
+
     begin
       chat = RubyLLM.chat
       system_prompt = "You are an expert in using devices.
@@ -19,7 +35,7 @@ class DevicesController < ApplicationController
     end
 
     # Fetch a relevant device image from Wikipedia and store it via Cloudinary
-    @device.image = generate_and_upload_image(@device.name)
+    @device.image ||= generate_and_upload_image(@device.name)
 
     if @device.save
       instruction = @device.build_instruction(steps: @api_response)
@@ -98,6 +114,6 @@ class DevicesController < ApplicationController
   end
 
   def device_params
-    params.require(:device).permit(:name)
+    params.require(:device).permit(:name, :image)
   end
 end
