@@ -32,8 +32,9 @@
       </div>
     </div>
 
-    <%# ── Sidebar: refine + delete ── %>
+    <%# ── Sidebar: refine + delete — sticky so it stays visible on scroll ── %>
     <div class="col-lg-4">
+      <div style="position: sticky; top: 80px;">
 
       <%# Device image %>
       <% if @device.image.present? %>
@@ -61,7 +62,7 @@
                         placeholder: "Ask for clarification or improvement for a specific part...",
                         input_html: {
                           class: 'form-control',
-                          rows: 5,
+                          rows: 3,
                           value: ''
                         },
                         wrapper_html: {
@@ -89,6 +90,7 @@
                       class: "btn btn-danger w-100 fw-bold" %>
       </div>
 
+      </div><%# end sticky wrapper %>
     </div>
   </div>
 

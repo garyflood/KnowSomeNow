@@ -5,25 +5,37 @@
   <%# ── Add New Device Form ── %>
   <div class="row justify-content-center mb-4">
     <div class="col-12 col-md-8 col-lg-6">
-      <!-- Add New Device Form -->
-      <div class="card shadow-sm mb-4 border-0 bg-light p-4">
-        <h3 class="mb-3">Add New Device</h3>
+      <!-- Add New Device Form — glass premium card -->
+      <div class="ksn-add-device-card mb-4">
+
+        <%# Header: icon badge + headline %>
+        <div class="text-center mb-4">
+          <div class="ksn-badge-icon mx-auto mb-3">
+            <span class="material-symbols-outlined">add_circle</span>
+          </div>
+          <h3 class="fw-bold mb-1">Add New Device</h3>
+          <p class="ksn-muted mb-0" style="font-size:.93rem;">Type a device or pick one from the marquee below</p>
+        </div>
+
         <%# data-quick-add-target="form" lets the controller submit this form %>
-        <%= simple_form_for @device || Device.new,
-                            url: devices_path,
-                            html: { multipart: true, "data-quick-add-target": "form" } do |f| %>
-          <div class="form-inputs mb-3">
-            <%# data-quick-add-target="nameInput" lets the controller fill this field %>
-            <%= f.input :name,
-                        label: "What device do you need help with?",
-                        placeholder: "e.g. Nespresso machine, iPhone 15, Microwave...",
-                        input_html: { "data-quick-add-target": "nameInput" } %>
-            <%= f.input :image, as: :file, label: "Or upload an image of your device" %>
-          </div>
-          <div class="form-actions">
-            <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
-          </div>
-        <% end %>
+        <div class="ksn-form">
+          <%= simple_form_for @device || Device.new,
+                              url: devices_path,
+                              html: { multipart: true, "data-quick-add-target": "form" } do |f| %>
+            <div class="form-inputs mb-3">
+              <%# data-quick-add-target="nameInput" lets the controller fill this field %>
+              <%= f.input :name,
+                          label: "What device do you need help with?",
+                          placeholder: "e.g. Nespresso machine, iPhone 15, Microwave...",
+                          input_html: { "data-quick-add-target": "nameInput", class: "form-control-lg" } %>
+              <%= f.input :image, as: :file, label: "Or upload an image of your device" %>
+            </div>
+            <div class="form-actions">
+              <%= f.button :submit, "Get AI Instructions", class: "btn ksn-btn-primary btn-lg w-100 fw-bold" %>
+            </div>
+          <% end %>
+        </div>
+
       </div>
 
     </div>
