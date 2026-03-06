@@ -1,26 +1,145 @@
 <%# app/views/users/show.html.erb %>
-<div class="container-xl py-5">
+<%# data-controller="quick-add" wires the popular-devices marquee to the form below %>
+<div class="container-xl py-5" data-controller="quick-add">
 
   <%# ── Add New Device Form ── %>
-  <div class="row justify-content-center mb-5">
+  <div class="row justify-content-center mb-4">
     <div class="col-12 col-md-8 col-lg-6">
       <!-- Add New Device Form -->
-      <div class="card shadow-sm mb-5 border-0 bg-light p-4">
+      <div class="card shadow-sm mb-4 border-0 bg-light p-4">
         <h3 class="mb-3">Add New Device</h3>
-        <%= simple_form_for @device || Device.new, url: devices_path, html: { multipart: true } do |f| %>
-            <div class="form-inputs mb-3">
-              <%= f.input :name,
-                  label: "What device do you need help with?",
-                  placeholder: "e.g. Nespresso machine, iPhone 15, Microwave..." %>
-              <%= f.input :image, as: :file, label: "Or upload an image of your device" %>
-            </div>
-            <div class="form-actions">
-              <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
-            </div>
-          <% end %>
+        <%# data-quick-add-target="form" lets the controller submit this form %>
+        <%= simple_form_for @device || Device.new,
+                            url: devices_path,
+                            html: { multipart: true, "data-quick-add-target": "form" } do |f| %>
+          <div class="form-inputs mb-3">
+            <%# data-quick-add-target="nameInput" lets the controller fill this field %>
+            <%= f.input :name,
+                        label: "What device do you need help with?",
+                        placeholder: "e.g. Nespresso machine, iPhone 15, Microwave...",
+                        input_html: { "data-quick-add-target": "nameInput" } %>
+            <%= f.input :image, as: :file, label: "Or upload an image of your device" %>
+          </div>
+          <div class="form-actions">
+            <%= f.button :submit, "Get AI Instructions", class: "btn btn-primary w-100" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+
+  <%# ── Popular devices marquee (full container width) ── %>
+  <%# Click any card to instantly fill the form and generate instructions %>
+  <div class="mb-5">
+    <p class="ksn-marquee-label mb-2">Or pick a popular device</p>
+    <div class="ksn-marquee-wrap">
+      <div class="ksn-marquee-track">
+          <%# --- Set A --- %>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="iPhone">
+            <div class="ksn-device-icon ksn-device-icon-primary"><span class="material-symbols-outlined">smartphone</span></div>
+            <div><div class="ksn-device-title">iPhone</div><div class="ksn-device-sub">iOS 17+ Guides</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Android Phone">
+            <div class="ksn-device-icon ksn-device-icon-green"><span class="material-symbols-outlined">android</span></div>
+            <div><div class="ksn-device-title">Android</div><div class="ksn-device-sub">Samsung & Pixel</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="MacBook">
+            <div class="ksn-device-icon ksn-device-icon-slate"><span class="material-symbols-outlined">laptop_mac</span></div>
+            <div><div class="ksn-device-title">MacBook</div><div class="ksn-device-sub">macOS Sonoma</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Windows PC">
+            <div class="ksn-device-icon ksn-device-icon-blue"><span class="material-symbols-outlined">window</span></div>
+            <div><div class="ksn-device-title">Windows PC</div><div class="ksn-device-sub">Windows 11 Tips</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Smart Home Hub">
+            <div class="ksn-device-icon ksn-device-icon-orange"><span class="material-symbols-outlined">home_iot_device</span></div>
+            <div><div class="ksn-device-title">Smart Home</div><div class="ksn-device-sub">IoT & Security</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="iPad">
+            <div class="ksn-device-icon ksn-device-icon-primary"><span class="material-symbols-outlined">tablet</span></div>
+            <div><div class="ksn-device-title">iPad</div><div class="ksn-device-sub">iPadOS Guides</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Smart TV">
+            <div class="ksn-device-icon ksn-device-icon-green"><span class="material-symbols-outlined">tv</span></div>
+            <div><div class="ksn-device-title">Smart TV</div><div class="ksn-device-sub">Samsung & LG</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="AirPods">
+            <div class="ksn-device-icon ksn-device-icon-blue"><span class="material-symbols-outlined">headphones</span></div>
+            <div><div class="ksn-device-title">AirPods</div><div class="ksn-device-sub">Pro & Max Tips</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Apple Watch">
+            <div class="ksn-device-icon ksn-device-icon-slate"><span class="material-symbols-outlined">watch</span></div>
+            <div><div class="ksn-device-title">Apple Watch</div><div class="ksn-device-sub">watchOS Tips</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Nespresso Machine">
+            <div class="ksn-device-icon ksn-device-icon-orange"><span class="material-symbols-outlined">coffee_maker</span></div>
+            <div><div class="ksn-device-title">Nespresso</div><div class="ksn-device-sub">Coffee Machine</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Nest Thermostat">
+            <div class="ksn-device-icon ksn-device-icon-primary"><span class="material-symbols-outlined">nest_thermostat</span></div>
+            <div><div class="ksn-device-title">Thermostat</div><div class="ksn-device-sub">Nest & Ecobee</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="DSLR Camera">
+            <div class="ksn-device-icon ksn-device-icon-green"><span class="material-symbols-outlined">camera</span></div>
+            <div><div class="ksn-device-title">Camera</div><div class="ksn-device-sub">DSLR & Mirrorless</div></div>
+          </div>
+
+          <%# --- Set B (identical copy for seamless marquee loop) --- %>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="iPhone">
+            <div class="ksn-device-icon ksn-device-icon-primary"><span class="material-symbols-outlined">smartphone</span></div>
+            <div><div class="ksn-device-title">iPhone</div><div class="ksn-device-sub">iOS 17+ Guides</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Android Phone">
+            <div class="ksn-device-icon ksn-device-icon-green"><span class="material-symbols-outlined">android</span></div>
+            <div><div class="ksn-device-title">Android</div><div class="ksn-device-sub">Samsung & Pixel</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="MacBook">
+            <div class="ksn-device-icon ksn-device-icon-slate"><span class="material-symbols-outlined">laptop_mac</span></div>
+            <div><div class="ksn-device-title">MacBook</div><div class="ksn-device-sub">macOS Sonoma</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Windows PC">
+            <div class="ksn-device-icon ksn-device-icon-blue"><span class="material-symbols-outlined">window</span></div>
+            <div><div class="ksn-device-title">Windows PC</div><div class="ksn-device-sub">Windows 11 Tips</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Smart Home Hub">
+            <div class="ksn-device-icon ksn-device-icon-orange"><span class="material-symbols-outlined">home_iot_device</span></div>
+            <div><div class="ksn-device-title">Smart Home</div><div class="ksn-device-sub">IoT & Security</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="iPad">
+            <div class="ksn-device-icon ksn-device-icon-primary"><span class="material-symbols-outlined">tablet</span></div>
+            <div><div class="ksn-device-title">iPad</div><div class="ksn-device-sub">iPadOS Guides</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Smart TV">
+            <div class="ksn-device-icon ksn-device-icon-green"><span class="material-symbols-outlined">tv</span></div>
+            <div><div class="ksn-device-title">Smart TV</div><div class="ksn-device-sub">Samsung & LG</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="AirPods">
+            <div class="ksn-device-icon ksn-device-icon-blue"><span class="material-symbols-outlined">headphones</span></div>
+            <div><div class="ksn-device-title">AirPods</div><div class="ksn-device-sub">Pro & Max Tips</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Apple Watch">
+            <div class="ksn-device-icon ksn-device-icon-slate"><span class="material-symbols-outlined">watch</span></div>
+            <div><div class="ksn-device-title">Apple Watch</div><div class="ksn-device-sub">watchOS Tips</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Nespresso Machine">
+            <div class="ksn-device-icon ksn-device-icon-orange"><span class="material-symbols-outlined">coffee_maker</span></div>
+            <div><div class="ksn-device-title">Nespresso</div><div class="ksn-device-sub">Coffee Machine</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="Nest Thermostat">
+            <div class="ksn-device-icon ksn-device-icon-primary"><span class="material-symbols-outlined">nest_thermostat</span></div>
+            <div><div class="ksn-device-title">Thermostat</div><div class="ksn-device-sub">Nest & Ecobee</div></div>
+          </div>
+          <div class="ksn-device-card" style="cursor:pointer;" data-action="click->quick-add#fill" data-quick-add-name-param="DSLR Camera">
+            <div class="ksn-device-icon ksn-device-icon-green"><span class="material-symbols-outlined">camera</span></div>
+            <div><div class="ksn-device-title">Camera</div><div class="ksn-device-sub">DSLR & Mirrorless</div></div>
+          </div>
+
       </div>
     </div>
   </div>
+  <%# ── end marquee ── %>
+
   <!-- My Saved Instructions Grid -->
   <h3 class="mb-4">My Saved Instructions</h3>
   <% if @user.devices.any? %>
