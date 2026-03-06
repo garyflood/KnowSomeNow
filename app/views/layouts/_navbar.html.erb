@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-sm navbar-knowsomenow" data-controller="navbar" data-action="scroll@window->navbar#updateNavbar">
   <div class="container-xl">
-    <%= link_to root_path, class: "navbar-brand" do %>
+    <%= link_to root_path, class: "navbar-brand d-flex align-items-center gap-2" do %>
       <%= image_tag "logo_transparent.png", alt: "Logo" %>
+      <span class="ksn-brand-text">Know Some Now</span>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,9 +12,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
+          <% unless current_page?(user_path(current_user)) %>
           <li class="nav-item">
             <%= link_to "My Devices", user_path(current_user), class: "nav-link" %>
           </li>
+          <% end %>
           <li class="nav-item dropdown">
             <a href="#" class="text-white nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <%= current_user.email %>

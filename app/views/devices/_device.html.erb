@@ -4,9 +4,9 @@
 
     <%# ── Device image (Cloudinary URL stored in device.image) ── %>
     <% if device.image.present? %>
-      <%= image_tag device.image, class: "card-img-top", style: "height: 160px; object-fit: cover;" %>
+      <%= image_tag device.image, class: "card-img-top", style: "height: 220px; object-fit: cover;" %>
     <% else %>
-      <div class="ksn-img-placeholder d-flex align-items-center justify-content-center" style="height: 160px;">
+      <div class="ksn-img-placeholder d-flex align-items-center justify-content-center" style="height: 220px;">
         <span class="material-symbols-outlined" style="font-size: 56px; color: var(--ksn-muted);">devices</span>
       </div>
     <% end %>
