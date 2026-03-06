@@ -13,7 +13,13 @@ class DevicesController < ApplicationController
 
       # Use LLM to identify the object in the image
       chat = RubyLLM.chat(model: "gpt-4o")
-      prompt = "What is the model of this device. You just respond with the name of the device. If you're unsure of the exact device, you repond with the basic name of the device. Answer concisely."
+      prompt = "You are expert in identiying device modely.
+      Respond with the name exact model of the device (i.e. macbook pro M4).
+      If you're unsure exactly what model this device is,
+      repond with the model family (i.e. Macbook).
+      If you're unsure of the model family,
+      Respond with the type of device (i.e. Laptop).
+      Answer concisely with only the name. Do not give me full sentences."
 
       # Pass the file path to the LLM
       response = chat.ask(prompt, with: { image: uploaded_file.tempfile.path })
