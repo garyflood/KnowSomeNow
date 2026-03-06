@@ -13,10 +13,10 @@ class DevicesController < ApplicationController
 
       # Use LLM to identify the object in the image
       chat = RubyLLM.chat(model: "gpt-4o")
-      prompt = "You are expert in identiying device modely.
+      prompt = "You are expert in identiying device models.
       Respond with the name exact model of the device (i.e. macbook pro M4).
       If you're unsure exactly what model this device is,
-      repond with the model family (i.e. Macbook).
+      respond with the model family (i.e. Macbook).
       If you're unsure of the model family,
       Respond with the type of device (i.e. Laptop).
       Answer concisely with only the name. Do not give me full sentences."
