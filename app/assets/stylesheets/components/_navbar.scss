@@ -13,8 +13,17 @@
   }
   .navbar-brand {
     img {
-      width: 50px;
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
     }
+  }
+  .ksn-brand-text {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #fff;
+    line-height: 1;
   }
   .nav-link {
     color: $light-gray;
@@ -44,6 +53,9 @@
   background-color: white;
   .nav-link {
     color: black !important;
+  }
+  .ksn-brand-text {
+    color: #0b1220;
   }
   .navbar-toggler {
     color: black;

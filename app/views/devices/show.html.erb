@@ -1,45 +1,95 @@
-<div class="container">
-  <div class="device-show">
-  <% if @device.instruction %>
-    <div class="instruction-section">
-      <h2>Instructions</h2>
-    <div class="steps">
-      <%= markdown(@device.instruction.steps) %>
-    </div>
-    </div>
-  <% else %>
-    <p class="no-instructions">No instructions available for this device yet.</p>
+<%# app/views/devices/show.html.erb %>
+<div class="container py-5">
+
+  <%# ── Back link ── %>
+  <%= link_to user_path(current_user), class: "d-inline-flex align-items-center gap-1 ksn-muted text-decoration-none mb-4" do %>
+    <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+    Back to my devices
   <% end %>
+
+  <%# ── Device heading ── %>
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <div class="ksn-badge-icon" style="width:48px;height:48px;border-radius:16px;font-size:24px;">
+      <span class="material-symbols-outlined">devices</span>
+    </div>
+    <h1 class="fw-bold mb-0"><%= @device.name %></h1>
   </div>
-<%= simple_form_for [@device, @device.instruction],
-                    url: device_instruction_path(@device, @device.instruction),
-                    method: :patch,
-                    html: { class: 'form-horizontal' } do |f| %>
 
-  <%= f.input :steps,
-              as: :text,
-              label: false,
-              placeholder: "Ask for clarification or improvement for a specific part...",
-              input_html: {
-                class: 'form-control',
-                rows: 5,
-                value: ''
-              },
-              wrapper_html: {
-                class: 'no-validation-tick'  # Custom class to target with CSS
-              },
-              validate: false,  # Disable HTML5 validation
-              required: false,  # Mark as not required for this form
-              error: false,     # Don't display error messages
-              hint: false       # Don't display hints
-              %>
+  <div class="row g-4">
 
-  <%= f.button :submit, "Update Instructions", class: 'btn btn-primary mt-3' %>
-<% end %>
-  <%= button_to "Delete",
-                device_path(@device),
-                method: :delete,
-                data: { turbo_confirm: "Are you sure?" },
-                class: "btn btn-danger my-5" %>
+    <%# ── Instructions panel ── %>
+    <div class="col-lg-8">
+      <div class="ksn-card p-4 p-md-5">
+        <div class="ksn-eyebrow mb-3">AI-Generated Guide</div>
+
+        <% if @device.instruction %>
+          <div class="ksn-prose">
+            <%= markdown(@device.instruction.steps) %>
+          </div>
+        <% else %>
+          <p class="ksn-muted mb-0">No instructions available for this device yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# ── Sidebar: refine + delete ── %>
+    <div class="col-lg-4">
+
+      <%# Device image %>
+      <% if @device.image.present? %>
+        <div class="ksn-card mb-3 overflow-hidden">
+          <%= image_tag @device.image,
+                        alt: @device.name,
+                        style: "width: 100%; height: 280px; object-fit: cover; display: block;" %>
+        </div>
+      <% end %>
+
+      <%# Refine instructions form %>
+      <div class="ksn-card p-4 mb-3">
+        <h6 class="fw-bold mb-1">Refine Instructions</h6>
+        <p class="ksn-muted small mb-3">Ask for clarification or request improvements to a specific section.</p>
+
+        <div class="ksn-form">
+          <%= simple_form_for [@device, @device.instruction],
+                              url: device_instruction_path(@device, @device.instruction),
+                              method: :patch,
+                              html: { class: 'form-horizontal' } do |f| %>
+
+            <%= f.input :steps,
+                        as: :text,
+                        label: false,
+                        placeholder: "Ask for clarification or improvement for a specific part...",
+                        input_html: {
+                          class: 'form-control',
+                          rows: 5,
+                          value: ''
+                        },
+                        wrapper_html: {
+                          class: 'no-validation-tick'  # Custom class to target with CSS
+                        },
+                        validate: false,  # Disable HTML5 validation
+                        required: false,  # Mark as not required for this form
+                        error: false,     # Don't display error messages
+                        hint: false       # Don't display hints
+                        %>
+
+            <%= f.button :submit, "Update Instructions", class: 'btn ksn-btn-primary w-100 fw-bold mt-2' %>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Danger zone %>
+      <div class="ksn-card p-4" style="border-color: rgba(239,68,68,0.28);">
+        <h6 class="fw-bold mb-1" style="color: #f87171;">Danger Zone</h6>
+        <p class="ksn-muted small mb-3">Permanently deletes this device and all its instructions.</p>
+        <%= button_to "Delete Device",
+                      device_path(@device),
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure?" },
+                      class: "btn btn-danger w-100 fw-bold" %>
+      </div>
+
+    </div>
+  </div>
 
 </div>

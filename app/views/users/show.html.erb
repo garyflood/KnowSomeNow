@@ -1,5 +1,8 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
+<%# app/views/users/show.html.erb %>
+<div class="container-xl py-5">
+
+  <%# ── Add New Device Form ── %>
+  <div class="row justify-content-center mb-5">
     <div class="col-12 col-md-8 col-lg-6">
       <!-- Add New Device Form -->
       <div class="card shadow-sm mb-5 border-0 bg-light p-4">
@@ -25,8 +28,13 @@
       <%= render partial: "devices/device", collection: @user.devices.order(created_at: :desc) %>
     </div>
   <% else %>
-    <div class="text-center py-5 border rounded bg-white shadow-sm">
-      <p class="text-muted mb-0">You haven't added any devices yet. Type one above!</p>
+    <%# Empty state %>
+    <div class="ksn-card text-center py-5 px-4">
+      <div class="ksn-feature-icon mx-auto mb-3">
+        <span class="material-symbols-outlined">devices</span>
+      </div>
+      <p class="ksn-muted mb-0">You haven't added any devices yet. Type one above!</p>
     </div>
   <% end %>
+
 </div>

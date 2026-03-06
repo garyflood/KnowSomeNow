@@ -171,6 +171,86 @@ body {
   line-height: 1.6;
 }
 
+/* ---------- Full-viewport homepage (no scroll) ---------- */
+.ksn-homepage {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 56px); /* subtract navbar height */
+}
+
+/* Hero takes all remaining space, centres content vertically */
+.ksn-hero-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-block: 2.5rem;
+}
+
+/* Popular Devices — infinite marquee strip at the bottom */
+.ksn-devices-section {
+  padding: 1.25rem 0 1.75rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  background:
+    radial-gradient(900px 300px at 20% 0%, rgba(0,229,255,0.07), transparent 55%),
+    rgba(2, 8, 23, 0.10);
+}
+
+.ksn-marquee-label {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .72rem;
+  font-weight: 700;
+  color: rgba(226, 232, 240, 0.40);
+  margin-bottom: .9rem;
+}
+
+/* Clipping container with left/right fade */
+.ksn-marquee-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.ksn-marquee-wrap::before,
+.ksn-marquee-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.ksn-marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--ksn-bg), transparent);
+}
+.ksn-marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--ksn-bg), transparent);
+}
+
+/* Scrolling track — contains Set A + Set B (identical) */
+.ksn-marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: ksnMarquee 38s linear infinite;
+}
+.ksn-marquee-track:hover {
+  animation-play-state: paused; /* pause on hover */
+}
+
+@keyframes ksnMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* exactly half = one full set */
+}
+
+/* Override card sizing inside the marquee */
+.ksn-marquee-track .ksn-device-card {
+  flex-shrink: 0;
+  width: 180px;
+}
+
 /* ---------- Hero visual (right side) ---------- */
 .ksn-hero-visual {
   border-radius: calc(var(--ksn-radius) + 6px);

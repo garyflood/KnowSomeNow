@@ -1,0 +1,119 @@
+/* app/assets/stylesheets/pages/_shared.scss */
+/* ==============================================
+   KnowSomeNow — Shared dark-theme page styles
+   Used by: users/show, devices/show, auth pages
+   ============================================== */
+
+/* --- Dark form controls ---
+   Wrap a form in .ksn-form to get dark-styled inputs */
+.ksn-form .form-control,
+.ksn-form .form-select {
+  background: rgba(15, 23, 42, 0.35);
+  color: var(--ksn-text);
+  border-color: var(--ksn-border);
+}
+.ksn-form .form-control::placeholder {
+  color: rgba(226, 232, 240, 0.45);
+}
+.ksn-form .form-control:focus,
+.ksn-form .form-select:focus {
+  background: rgba(15, 23, 42, 0.50);
+  color: var(--ksn-text);
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
+}
+.ksn-form label,
+.ksn-form .form-label {
+  color: var(--ksn-text);
+  font-weight: 600;
+}
+.ksn-form .form-check-label {
+  color: var(--ksn-muted);
+}
+.ksn-form .form-text,
+.ksn-form .hint {
+  color: var(--ksn-muted);
+  font-size: .85rem;
+}
+
+/* --- Auth / link helpers --- */
+.ksn-auth-link {
+  color: var(--ksn-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.ksn-auth-link:hover {
+  color: var(--ksn-primary);
+  text-decoration: underline;
+}
+
+/* --- Device instruction prose (devices/show) --- */
+.ksn-prose {
+  color: var(--ksn-text);
+  line-height: 1.8;
+}
+.ksn-prose h1,
+.ksn-prose h2,
+.ksn-prose h3,
+.ksn-prose h4 {
+  color: #e2e8f0;
+  margin-top: 1.5em;
+  margin-bottom: .4em;
+}
+.ksn-prose p { margin-bottom: 1em; }
+.ksn-prose ul,
+.ksn-prose ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+.ksn-prose li { margin-bottom: .4em; }
+.ksn-prose code {
+  background: rgba(0, 229, 255, 0.10);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: .88em;
+  color: var(--ksn-primary);
+}
+.ksn-prose pre {
+  background: rgba(2, 8, 23, 0.55);
+  border: 1px solid var(--ksn-border);
+  border-radius: 12px;
+  padding: 16px;
+  overflow-x: auto;
+}
+.ksn-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.ksn-prose strong { color: #e2e8f0; }
+.ksn-prose hr {
+  border-color: var(--ksn-border);
+  margin-block: 2em;
+}
+
+/* --- Saved device cards (users/show grid) --- */
+.ksn-saved-card {
+  border-radius: var(--ksn-radius-sm);
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+  border: 1px solid var(--ksn-border);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  overflow: hidden;
+}
+.ksn-saved-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 229, 255, 0.28);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
+}
+.ksn-saved-card .card-body  { background: transparent; }
+.ksn-saved-card .card-title { color: var(--ksn-text); }
+.ksn-saved-card .card-text  { color: var(--ksn-muted); }
+.ksn-saved-card .text-muted { color: var(--ksn-muted) !important; }
+/* Placeholder image area in dark theme */
+.ksn-saved-card .ksn-img-placeholder {
+  background: rgba(15, 23, 42, 0.55);
+  border-bottom: 1px solid var(--ksn-border);
+}
