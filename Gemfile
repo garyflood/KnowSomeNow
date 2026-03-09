@@ -46,7 +46,7 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem 'devise'
-gem "ruby_llm", "~> 1.2.0"
+gem "ruby_llm", "~> 1.13.2"
 gem 'redcarpet'
 gem 'cloudinary'
 
